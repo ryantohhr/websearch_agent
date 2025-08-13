@@ -1,10 +1,11 @@
 from dotenv import load_dotenv
 from langchain_anthropic import ChatAnthropic
+from states.graph_state import GraphState
 
 load_dotenv()
 
 class BaseAgent:
-    def __init__(self, state):
+    def __init__(self, state: GraphState):
         self.state = state
 
     def get_llm(self):
