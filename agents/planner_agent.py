@@ -5,8 +5,8 @@ from agents.base_agent import BaseAgent
 from prompts.planner_prompt import planner_prompt_template
 
 class PlannerAgent(BaseAgent):
-    def invoke(self, user_question, prompt=planner_prompt_template, feedback=None):
-        reviewer_response = feedback() if callable(feedback) else feedback
+    def invoke(self, user_question, prompt=planner_prompt_template, get_feedback=None):
+        reviewer_response = get_feedback() if callable(get_feedback) else None
         feedback = reviewer_response.content["feedback"] if reviewer_response else ""
 
         planner_prompt = prompt.format(feedback=feedback, date=get_date())
