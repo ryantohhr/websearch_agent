@@ -10,7 +10,7 @@ class BaseAgent:
 
     def get_llm(self):
         llm = ChatAnthropic(
-            model="claude-3-haiku-20240307"
+            model="claude-3-5-haiku-20241022"
         )
 
         return llm
