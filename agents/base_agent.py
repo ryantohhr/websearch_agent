@@ -16,4 +16,7 @@ class BaseAgent:
         return llm
     
     def update_state(self, key, value):
-        self.state[key] = value
+        if key not in self.state:
+            self.state[key] = [value]
+        else:
+            self.state[key].append(value)

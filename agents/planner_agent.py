@@ -6,7 +6,7 @@ from prompts.planner_prompt import planner_prompt_template
 
 class PlannerAgent(BaseAgent):
     def invoke(self, user_question, prompt=planner_prompt_template, get_feedback=None):
-        reviewer_response = get_feedback() if callable(get_feedback) else None
+        reviewer_response = get_feedback()
         feedback = reviewer_response.content["feedback"] if reviewer_response else ""
 
         planner_prompt = prompt.format(feedback=feedback, date=get_date())
@@ -18,7 +18,7 @@ class PlannerAgent(BaseAgent):
 
         llm = self.get_llm()
         llm_with_structured_output = llm.with_structured_output(PlannerOutput)
-        response = [llm_with_structured_output.invoke(messages)]
+        response = llm_with_structured_output.invoke(messages)
 
         self.update_state("planner_response", response)
 

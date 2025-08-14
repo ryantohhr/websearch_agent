@@ -19,7 +19,10 @@ def get_serper_response(state: GraphState, get_planner_response):
 
     results = search.results(query)
     formatted_results = format_results(results["organic"])
-
-    state["serper_response"] = [formatted_results]
     
+    if "serper_response" not in state:
+            state["serper_response"] = [formatted_results]
+    else:
+        state["serper_response"].append(formatted_results)
+
     return state
