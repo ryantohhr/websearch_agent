@@ -1,4 +1,4 @@
-from typing import TypedDict
+from typing import TypedDict, List
 from langchain_core.messages import HumanMessage, SystemMessage
 from agents.base_agent import BaseAgent
 from prompts.selector_prompt import selector_prompt_template
@@ -31,7 +31,10 @@ class SelectorAgent(BaseAgent):
 
         return self.state
     
-class SelectorOutput(TypedDict):
+class SelectorItems(TypedDict):
     title: str
     link: str
     snippet: str
+    
+class SelectorOutput(TypedDict):
+    selected_items: List = []
