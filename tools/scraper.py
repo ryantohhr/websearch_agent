@@ -10,13 +10,13 @@ def get_scraper_response(state: GraphState, get_selector_response):
     for response in selector_response["selected_items"]:
         
         res = requests.get(response["link"])
-        soup = BeautifulSoup(res.text, "html.parser")
+        soup = BeautifulSoup(res.text, "html.parser") 
         text = " ".join(soup.stripped_strings)
 
         new_result = {
              "title": response["title"],
              "link": response["link"],
-             "text": text
+             "text": text[:5000]
         }
 
         results.append(new_result)
