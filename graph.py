@@ -4,6 +4,7 @@ from states.state_getter import state_getter
 from agents.planner_agent import PlannerAgent
 from agents.selector_agent import SelectorAgent
 from tools.serper import get_serper_response
+from tools.scraper import get_scraper_response
 
 builder = StateGraph(GraphState)
 
@@ -33,14 +34,23 @@ builder.add_node(
     )
 )
 
+builder.add_node(
+    "scraper_tool",
+    lambda state: get_scraper_response(
+        state=state,
+        get_selector_response=lambda: state_getter(state, "selector_latest")
+    )
+)
+
 builder.add_edge(START, "planner")
 builder.add_edge("planner", "serper_tool")
 builder.add_edge("serper_tool", "selector")
-builder.add_edge("selector", END)
+builder.add_edge("selector", "scraper_tool")
+builder.add_edge("scraper_tool", END)
 
 graph = builder.compile()
 
-for event in graph.stream({"user_question": "What is the capital of France?"}):
-    print(event, "\n\n")
+# for event in graph.stream({"user_question": "What is the capital of France?"}):
+#     print(event, "\n\n")
 
 # print(graph.invoke({"user_question": "What is the capital of France?"}))
