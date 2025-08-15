@@ -11,6 +11,13 @@ This project is a simple AI agent that receives the user's question and scrapes 
 
 ## How to use
 
+Set up `.env` file
+
+```
+ANTHROPIC_API_KEY=
+SERPER_API_KEY=
+```
+
 Install dependencies
 
 ```
