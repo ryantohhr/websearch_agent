@@ -65,18 +65,38 @@ builder.add_node(
     )
 )
 
+def final_answer(state: GraphState):
+    answer = state["reporter_response"][-1]["report"]
+
+    print(f"Final answer: {answer}")
+
+builder.add_node(
+    "final",
+    lambda state: final_answer(state)
+)
+
+def router(state: GraphState):
+    next_node = state["reviewer_response"][-1]["next_node"]
+    
+    return next_node
+
+
+
 builder.add_edge(START, "planner")
 builder.add_edge("planner", "serper_tool")
 builder.add_edge("serper_tool", "selector")
 builder.add_edge("selector", "scraper_tool")
 builder.add_edge("scraper_tool", "reporter")
 builder.add_edge("reporter", "reviewer")
-builder.add_edge("reviewer", END)
-
+builder.add_conditional_edges(
+    "reviewer", 
+    lambda state: router(state)
+)
+builder.add_edge("final", END)
 
 graph = builder.compile()
 
 # for event in graph.stream({"user_question": "What is the capital of France?"}):
 #     print(event, "\n\n")
 
-print(graph.invoke({"user_question": "How old is Donald Trump?"}, {"recursion_limit": 10}))
+graph.invoke({"user_question": "How old is Donald Trump?"}, {"recursion_limit": 10})
