@@ -16,7 +16,7 @@ The current date and time is: {date}
 You should respond with a list of objects in the following format:
 
     "title": "Title of the site selected for scraping."
-    "links": "Link to the site selected for scraping."
+    "link": "Link to the site selected for scraping."
     "snippet": "Snippet of the content from the site selected for scraping."
 
 """
