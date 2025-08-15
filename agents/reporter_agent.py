@@ -7,7 +7,7 @@ from utils.date import get_date
 class ReporterAgent(BaseAgent):
     def invoke(self, user_question, prompt=reporter_prompt_template, get_feedback=None, get_context=None, get_prev_reports=None):
         reviewer_response = get_feedback()
-        feedback = reviewer_response.content["feedback"] if reviewer_response else ""
+        feedback = reviewer_response["feedback"] if reviewer_response else ""
 
         reporter_prompt = prompt.format(
             context=get_context(),

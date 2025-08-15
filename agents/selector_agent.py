@@ -7,7 +7,7 @@ from utils.date import get_date
 class SelectorAgent(BaseAgent):
     def invoke(self, user_question, prompt=selector_prompt_template, get_feedback=None, get_serp=None, get_prev_selections=None):
         reviewer_response = get_feedback()
-        feedback = reviewer_response.content["feedback"] if reviewer_response else ""
+        feedback = reviewer_response["feedback"] if reviewer_response else ""
 
         prev_selections = get_prev_selections()
 

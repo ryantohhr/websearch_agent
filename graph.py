@@ -4,6 +4,7 @@ from states.state_getter import state_getter
 from agents.planner_agent import PlannerAgent
 from agents.selector_agent import SelectorAgent
 from agents.reporter_agent import ReporterAgent
+from agents.reviewer_agent import ReviewerAgent
 from tools.serper import get_serper_response
 from tools.scraper import get_scraper_response
 
@@ -53,12 +54,24 @@ builder.add_node(
     )
 )
 
+builder.add_node(
+    "reviewer",
+    lambda state: ReviewerAgent(state).invoke(
+        user_question=state["user_question"],
+        get_plan=lambda: state_getter(state, "planner_latest"),
+        get_answer=lambda: state_getter(state, "reporter_latest"),
+        get_context=lambda: state_getter(state, "scraper_latest"),
+        get_prev_feedback=lambda: state_getter(state, "reviewer_all")
+    )
+)
+
 builder.add_edge(START, "planner")
 builder.add_edge("planner", "serper_tool")
 builder.add_edge("serper_tool", "selector")
 builder.add_edge("selector", "scraper_tool")
 builder.add_edge("scraper_tool", "reporter")
-builder.add_edge("reporter", END)
+builder.add_edge("reporter", "reviewer")
+builder.add_edge("reviewer", END)
 
 
 graph = builder.compile()
@@ -66,4 +79,4 @@ graph = builder.compile()
 # for event in graph.stream({"user_question": "What is the capital of France?"}):
 #     print(event, "\n\n")
 
-print(graph.invoke({"user_question": "What is the capital of France?"}))
+print(graph.invoke({"user_question": "How old is Donald Trump?"}, {"recursion_limit": 10}))
