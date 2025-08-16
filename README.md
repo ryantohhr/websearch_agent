@@ -4,8 +4,7 @@ This project is a simple AI agent that receives the user's question and scrapes 
 
 Tech used: LangChain and LangGraph
 
-<img src="https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/langchain.png" height=60>
-<img src="https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/langgraph.png" height=60>
+<img src="https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/langchain.png" height=60><img src="https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/langgraph.png" height=60>
 
 ## Takeaways
 
